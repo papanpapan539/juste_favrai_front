@@ -1,24 +1,13 @@
-# Nuxt dev/build outputs
-.output
-.data
-.nuxt
-.nitro
-.cache
-dist
+# Ignore tout par défaut
+/*
 
-# Node dependencies
-node_modules
+# Garde le dossier de sortie
+!/.output/
+!/.output/public/
 
-# Logs
-logs
-*.log
-
-# Misc
-.DS_Store
-.fleet
-.idea
-
-# Local env files
-.env
-.env.*
-!.env.example
+# Garde ce qu'il faut pour GitHub
+!/.gitignore
+!/.github/
+!/.github/workflows/
+!README.md
+!LICENSE
