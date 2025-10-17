@@ -3,8 +3,8 @@
     <Breadcrumbs />
     <div class="grid">
       <div class="media">
-        <video controls preload="metadata" poster="/parfums/parfum-fumier-de-lapin.png" class="player">
-          <source src="/parfums/parfum-fumier-de-lapin.mp4" type="video/mp4" />
+        <video controls preload="metadata" poster="/juste_favrai_front/parfums/parfum-fumier-de-lapin.png" class="player">
+          <source src="/juste_favrai_front/parfums/parfum-fumier-de-lapin.mp4" type="video/mp4" />
           Votre navigateur ne supporte pas la vidéo.
         </video>
       </div>

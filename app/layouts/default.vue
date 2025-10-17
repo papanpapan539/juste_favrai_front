@@ -2,7 +2,7 @@
   <div>
     <transition name="fade">
       <div v-if="showSplash" class="splash" role="status" aria-live="polite">
-        <img src="/logos/logo-principal.png" alt="Logo Juste Favrai" class="splash-logo" @load="onLogoLoaded" />
+        <img src="/juste_favrai_front/logos/logo-principal.png" alt="Logo Juste Favrai" class="splash-logo" @load="onLogoLoaded" />
       </div>
     </transition>
     <AppHeader />

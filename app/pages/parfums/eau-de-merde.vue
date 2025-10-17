@@ -3,14 +3,10 @@
     <Breadcrumbs />
     <div class="grid">
       <div class="media">
-        <!-- <video controls preload="metadata" poster="/parfums/parfum-eau-de-merde.png" class="player">
-          <source src="/parfums/parfum-eau-de-merde.mp4" type="video/mp4" />
+        <video controls preload="metadata" poster="/juste_favrai_front/parfums/parfum-eau-de-merde.png" class="player">
+          <source src="/juste_favrai_front/parfums/parfum-eau-de-merde.mp4" type="video/mp4" />
           Votre navigateur ne supporte pas la vidéo.
-        </video> -->
-        <video controls src="/parfums/parfum-eau-de-merde.png">
-          <source src="/parfums/parfum-eau-de-merde.mp4" type="video/mp4" />
-          Votre navigateur ne supporte pas la vidéo.
-        </video> 
+        </video>
       </div>
       <div class="details">
         <h1>Parfum — Eau de merde</h1>
