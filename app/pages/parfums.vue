@@ -7,18 +7,18 @@
         <ProductCard
           title="Parfum — Fumier de lapin"
           description="Accord animal singulier, pour audacieux seulement."
-          image="/parfums/parfum-fumier-de-lapin.png"
+          :image="`${base}parfums/parfum-fumier-de-lapin.png`"
           price="320 €"
-          @image-click="openVideo('/parfums/parfum-fumier-de-lapin.mp4')"
+          @image-click="openVideo(`${base}parfums/parfum-fumier-de-lapin.mp4`)"
         />
       </NuxtLink>
       <NuxtLink to="/parfums/eau-de-merde" class="link-card">
         <ProductCard
           title="Parfum — Eau de merde"
           description="Un accord marin étonnamment organique. Pour nez téméraires."
-          image="/parfums/parfum-eau-de-merde.png"
+          :image="`${base}parfums/parfum-eau-de-merde.png`"
           price="280 €"
-          @image-click="openVideo('/parfums/parfum-eau-de-merde.mp4')"
+          @image-click="openVideo(`${base}parfums/parfum-eau-de-merde.mp4`)"
         />
       </NuxtLink>
     </div>
@@ -38,14 +38,20 @@
 
 <script setup lang="ts">
 useHead({ title: 'Parfums' })
+
+const config = useRuntimeConfig()
+const base = config.app.baseURL
+
 const showVideo = ref(false)
 const currentVideoSrc = ref('')
 const modalRef = ref<HTMLDivElement | null>(null)
+
 function openVideo(src: string) {
   currentVideoSrc.value = src
   showVideo.value = true
   nextTick(() => modalRef.value?.focus())
 }
+
 function closeVideo() {
   showVideo.value = false
   currentVideoSrc.value = ''

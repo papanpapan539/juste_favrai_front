@@ -2,7 +2,7 @@
   <header class="header">
     <nav class="nav">
       <NuxtLink to="/" class="brand">
-        <img src="/logos/logo-principal.png" alt="Logo Juste Favrai" class="logo" />
+        <img :src="`${base}logos/logo-principal.png`" alt="Logo Juste Favrai" class="logo" />
         <span>Juste Favrai</span>
       </NuxtLink>
       <button class="menu-btn" @click="isOpen = !isOpen" aria-label="Ouvrir le menu" aria-expanded="isOpen">
@@ -18,6 +18,9 @@
 </template>
 
 <script setup lang="ts">
+const config = useRuntimeConfig()
+const base = config.app.baseURL
+
 const isOpen = ref(false)
 </script>
 

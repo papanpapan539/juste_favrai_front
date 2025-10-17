@@ -2,7 +2,7 @@
   <section class="hero">
     <div class="inner">
       <div class="hero-head">
-        <img src="/logos/logo-principal.png" alt="Logo Juste Favrai" class="hero-logo" />
+        <img :src="`${base}logos/logo-principal.png`" alt="Logo Juste Favrai" class="hero-logo" />
         <h1>Juste Favrai</h1>
       </div>
       <p class="subtitle">Objets de luxe décalés, pensés pour les audacieux.</p>
@@ -20,7 +20,7 @@
     <div class="inner grid">
       <NuxtLink to="/parfums" class="cat card">
         <div class="media" aria-hidden="true">
-          <img src="/parfums/parfum-fumier-de-lapin.png" alt="" />
+          <img :src="`${base}parfums/parfum-fumier-de-lapin.png`" alt="" />
         </div>
         <div class="body">
           <h3>Parfums</h3>
@@ -29,7 +29,7 @@
       </NuxtLink>
       <NuxtLink to="/chiottes-de-luxe" class="cat card">
         <div class="media" aria-hidden="true">
-          <img src="/chiottes/chiotte-1.png" alt="" />
+          <img :src="`${base}chiottes/chiotte-1.png`" alt="" />
         </div>
         <div class="body">
           <h3>Chiottes</h3>
@@ -42,6 +42,9 @@
 
 <script setup lang="ts">
 useHead({ title: 'Accueil' })
+
+const config = useRuntimeConfig()
+const base = config.app.baseURL
 </script>
 
 <style scoped>

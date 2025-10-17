@@ -7,9 +7,9 @@
         <ProductCard
           title="Chiotte — Série 1"
           description="Finitions haut de gamme et technologie avancée."
-          image="/chiottes/chiotte-1.png"
+          :image="`${base}chiottes/chiotte-1.png`"
           price="18 900 €"
-          @image-click="openVideo('/chiottes/chiotte-1.mp4')"
+          @image-click="openVideo(`${base}chiottes/chiotte-1.mp4`)"
         />
       </div>
     </div>
@@ -29,6 +29,10 @@
 
 <script setup lang="ts">
 useHead({ title: 'Chiottes de luxe' })
+
+const config = useRuntimeConfig()
+const base = config.app.baseURL
+
 const showVideo = ref(false)
 const currentVideoSrc = ref('')
 const modalRef = ref<HTMLDivElement | null>(null)

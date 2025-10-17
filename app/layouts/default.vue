@@ -2,7 +2,7 @@
   <div>
     <transition name="fade">
       <div v-if="showSplash" class="splash" role="status" aria-live="polite">
-        <img src="/logos/logo-principal.png" alt="Logo Juste Favrai" class="splash-logo" @load="onLogoLoaded" />
+        <img :src="`${base}logos/logo-principal.png`" alt="Logo Juste Favrai" class="splash-logo" @load="onLogoLoaded" />
       </div>
     </transition>
     <AppHeader />
@@ -14,6 +14,9 @@
 </template>
 
 <script setup lang="ts">
+const config = useRuntimeConfig()
+const base = config.app.baseURL
+
 const showSplash = ref(true)
 const hasLoadedOnce = useState<boolean>('hasLoadedOnce', () => false)
 

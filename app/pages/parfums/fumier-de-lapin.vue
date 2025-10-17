@@ -3,8 +3,8 @@
     <Breadcrumbs />
     <div class="grid">
       <div class="media">
-        <video controls preload="metadata" poster="/parfums/parfum-fumier-de-lapin.png" class="player">
-          <source src="/parfums/parfum-fumier-de-lapin.mp4" type="video/mp4" />
+        <video controls preload="metadata" :poster="`${base}parfums/parfum-fumier-de-lapin.png`" class="player">
+          <source :src="`${base}parfums/parfum-fumier-de-lapin.mp4`" type="video/mp4" />
           Votre navigateur ne supporte pas la vidéo.
         </video>
       </div>
@@ -23,6 +23,9 @@
 
 <script setup lang="ts">
 useHead({ title: 'Parfum — Fumier de lapin' })
+
+const config = useRuntimeConfig()
+const base = config.app.baseURL
 </script>
 
 <style scoped>
