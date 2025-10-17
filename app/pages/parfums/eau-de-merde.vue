@@ -8,7 +8,7 @@
           Votre navigateur ne supporte pas la vidéo.
         </video> -->
         <video controls src="/parfums/parfum-eau-de-merde.png">
-          <!-- <source src="/parfums/parfum-eau-de-merde.mp4" type="video/mp4" /> -->
+          <source src="/parfums/parfum-eau-de-merde.mp4" type="video/mp4" />
           Votre navigateur ne supporte pas la vidéo.
         </video> 
       </div>
