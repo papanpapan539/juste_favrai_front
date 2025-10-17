@@ -10,7 +10,7 @@
         <NuxtLink to="/parfums" class="btn">
           <span>Découvrir les parfums</span>
         </NuxtLink>
-        <NuxtLink to="/chiottes" class="btn alt">
+        <NuxtLink to="/chiottes-de-luxe" class="btn alt">
           <span>Explorer les chiottes</span>
         </NuxtLink>
       </div>
@@ -27,7 +27,7 @@
           <p>Compositions audacieuses avec vidéos de campagne.</p>
         </div>
       </NuxtLink>
-      <NuxtLink to="/chiottes" class="cat card">
+      <NuxtLink to="/chiottes-de-luxe" class="cat card">
         <div class="media" aria-hidden="true">
           <img src="/chiottes/chiotte-1.png" alt="" />
         </div>

@@ -5,7 +5,7 @@
       <ul class="links">
         <li><NuxtLink to="/">Accueil</NuxtLink></li>
         <li><NuxtLink to="/parfums">Parfums</NuxtLink></li>
-        <li><NuxtLink to="/chiottes">Chiottes</NuxtLink></li>
+        <li><NuxtLink to="/chiottes-de-luxe">Chiottes</NuxtLink></li>
       </ul>
     </div>
   </footer>

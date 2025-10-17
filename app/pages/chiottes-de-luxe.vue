@@ -3,47 +3,96 @@
     <h1>Chiottes de luxe</h1>
     <p class="lead">Technologie et raffinement pour un confort inégalé.</p>
     <div class="grid">
-      <ProductCard
-        v-for="p in products"
-        :key="p.title"
-        :title="p.title"
-        :description="p.description"
-        :image="p.image"
-        :price="p.price"
-      />
+      <div class="link-card" @click="showVideo = true">
+        <ProductCard
+          title="Chiotte — Série 1"
+          description="Finitions haut de gamme et technologie avancée."
+          image="/chiottes/chiotte-1.png"
+          price="18 900 €"
+          @image-click="openVideo('/chiottes/chiotte-1.mp4')"
+        />
+      </div>
+    </div>
+
+    <!-- Modal vidéo -->
+    <div v-if="showVideo" class="modal" @click="closeVideo" @keydown.esc="closeVideo" tabindex="-1" ref="modalRef">
+      <div class="modal-content" @click.stop>
+        <button class="close-btn" @click="closeVideo">&times;</button>
+        <video controls autoplay class="modal-video">
+          <source :src="currentVideoSrc" type="video/mp4" />
+          Votre navigateur ne supporte pas la vidéo.
+        </video>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 useHead({ title: 'Chiottes de luxe' })
+const showVideo = ref(false)
+const currentVideoSrc = ref('')
+const modalRef = ref<HTMLDivElement | null>(null)
 
-const products = [
-  {
-    title: 'Trône Platine Série S',
-    description: 'Abattant chauffant, jets massants, détection de présence, finition platine.',
-    image: 'https://images.unsplash.com/photo-1582582621959-48b3b6f52aca?q=80&w=800&auto=format&fit=crop',
-    price: '18 900 €'
-  },
-  {
-    title: 'Opéra Or 24K',
-    description: 'Revêtement or 24 carats, chasse silencieuse, parfum intégré.',
-    image: 'https://images.unsplash.com/photo-1617093727343-374fcf5c48e4?q=80&w=800&auto=format&fit=crop',
-    price: '29 500 €'
-  },
-  {
-    title: 'Zen Onyx Pro',
-    description: 'Pierre d’onyx, éclairage d’ambiance, contrôle mobile.',
-    image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=800&auto=format&fit=crop',
-    price: '12 400 €'
-  }
-]
+function openVideo(src: string) {
+  currentVideoSrc.value = src
+  showVideo.value = true
+  nextTick(() => modalRef.value?.focus())
+}
+
+function closeVideo() {
+  showVideo.value = false
+  currentVideoSrc.value = ''
+}
 </script>
 
 <style scoped>
 h1 { font-size: 1.75rem; }
 .lead { color: #94a3b8; margin: 0.25rem 0 1rem; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+.link-card { text-decoration: none; cursor: pointer; }
 section { max-width: 1200px; margin: 0 auto; }
-</style>
 
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.close-btn {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-video {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  border-radius: 0.5rem;
+}
+</style>
