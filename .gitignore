@@ -1,13 +1,60 @@
-# Ignore tout par défaut
-/*
+# Dependencies
+node_modules/
 
-# Garde le dossier de sortie
-!/.output/
-!/.output/public/
+# Nuxt build outputs
+.nuxt/
+.output/
+dist/
 
-# Garde ce qu'il faut pour GitHub
-!/.gitignore
-!/.github/
-!/.github/workflows/
-!README.md
-!LICENSE
+# Nitro/Cache
+.nitro/
+.cache/
+node_modules/.cache/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+*.tsbuildinfo.*
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Editors/IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Parcel / Others
+.parcel-cache/
