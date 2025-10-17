@@ -2,7 +2,7 @@
   <header class="header">
     <nav class="nav">
       <NuxtLink to="/" class="brand">
-        <img src="/juste_favrai_front/logos/logo-principal.png" alt="Logo Juste Favrai" class="logo" />
+        <img src="/logos/logo-principal.png" alt="Logo Juste Favrai" class="logo" />
         <span>Juste Favrai</span>
       </NuxtLink>
       <button class="menu-btn" @click="isOpen = !isOpen" aria-label="Ouvrir le menu" aria-expanded="isOpen">

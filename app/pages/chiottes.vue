@@ -7,7 +7,7 @@
         <ProductCard
           title="Chiotte — Série 1"
           description="Finitions haut de gamme et technologie avancée."
-          image="/juste_favrai_front/chiottes/chiotte-1.png"
+          image="/chiottes/chiotte-1.png"
           price="18 900 €"
         />
       </div>
@@ -16,8 +16,8 @@
     <div v-if="showVideo" class="modal" @click="showVideo = false">
       <div class="modal-content" @click.stop>
         <button class="close-btn" @click="showVideo = false">&times;</button>
-        <video controls autoplay poster="/juste_favrai_front/chiottes/chiotte-1.png" class="modal-video">
-          <source src="/juste_favrai_front/chiottes/chiotte-1.mp4" type="video/mp4" />
+        <video controls autoplay poster="/chiottes/chiotte-1.png" class="modal-video">
+          <source src="/chiottes/chiotte-1.mp4" type="video/mp4" />
           Votre navigateur ne supporte pas la vidéo.
         </video>
       </div>
