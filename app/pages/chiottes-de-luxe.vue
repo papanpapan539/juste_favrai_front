@@ -3,7 +3,7 @@
     <h1>Chiottes de luxe</h1>
     <p class="lead">Technologie et raffinement pour un confort inégalé.</p>
     <div class="grid">
-      <div class="link-card" @click="showVideo = true">
+      <NuxtLink to="/chiottes-de-luxe/serie-1" class="link-card">
         <ProductCard
           title="Chiotte — Série 1"
           description="Finitions haut de gamme et technologie avancée."
@@ -11,7 +11,16 @@
           price="18 900 €"
           @image-click="openVideo(`${base}chiottes/chiotte-1.mp4`)"
         />
-      </div>
+      </NuxtLink>
+      <NuxtLink to="/chiottes-de-luxe/serie-2" class="link-card">
+        <ProductCard
+          title="Chiotte — Série 2"
+          description="Innovation et confort réunis dans un design exceptionnel."
+          :image="`${base}chiottes/chiotte-2.png`"
+          price="22 500 €"
+          @image-click="openVideo(`${base}chiottes/chiotte-2.mp4`)"
+        />
+      </NuxtLink>
     </div>
 
     <!-- Modal vidéo -->

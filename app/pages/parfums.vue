@@ -21,6 +21,24 @@
           @image-click="openVideo(`${base}parfums/parfum-eau-de-merde.mp4`)"
         />
       </NuxtLink>
+      <NuxtLink to="/parfums/prout" class="link-card">
+        <ProductCard
+          title="Parfum — Prout"
+          description="Une fragrance audacieuse qui ne laisse personne indifférent."
+          :image="`${base}parfums/parfum-prout.png`"
+          price="250 €"
+          @image-click="openVideo(`${base}parfums/parfum-prout.mp4`)"
+        />
+      </NuxtLink>
+      <NuxtLink to="/parfums/urine" class="link-card">
+        <ProductCard
+          title="Parfum — Urine"
+          description="Un parfum controversé pour les amateurs d'extrême."
+          :image="`${base}parfums/parfum-urine.png`"
+          price="300 €"
+          @image-click="openVideo(`${base}parfums/parfum-urine.mp4`)"
+        />
+      </NuxtLink>
     </div>
 
     <!-- Modal vidéo -->
