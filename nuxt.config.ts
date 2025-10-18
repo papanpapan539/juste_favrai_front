@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   modules: ['@nuxt/ui'],
   // Base publique pour GitHub Pages (définie au build via variable d'env)
   app: {
-    baseURL: process.env.NUXT_APP_BASE_URL || '/',
+    baseURL: '/',
 
     head: {
       title: 'Juste Favrai',
