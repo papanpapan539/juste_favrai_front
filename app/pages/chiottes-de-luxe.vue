@@ -21,6 +21,15 @@
           @image-click="openVideo(`${base}chiottes/chiotte-2.mp4`)"
         />
       </NuxtLink>
+      <NuxtLink to="/chiottes-de-luxe/serie-3" class="link-card">
+        <ProductCard
+          title="Chiotte — Série 3"
+          description="Le nec plus ultra du confort et de la technologie. Excellence absolue."
+          :image="`${base}chiottes/chiotte-3.png`"
+          price="28 900 €"
+          @image-click="openVideo(`${base}chiottes/chiotte-3.mp4`)"
+        />
+      </NuxtLink>
     </div>
 
     <!-- Modal vidéo -->
