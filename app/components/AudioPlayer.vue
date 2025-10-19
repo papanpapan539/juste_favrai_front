@@ -1,20 +1,24 @@
 <template>
-  <div class="audio-player" v-if="currentTrack">
+  <div class="audio-player">
     <div class="player-info">
       <div class="track-details">
-        <h4 class="track-name">{{ currentTrack.name }}</h4>
-        <p class="artist-name">{{ currentArtist?.name }}</p>
+        <h4 class="track-name">{{ currentTrack?.name || 'Aucune chanson sélectionnée' }}</h4>
+        <p class="artist-name">{{ currentArtist?.name || 'Sélectionnez une chanson pour commencer' }}</p>
       </div>
     </div>
     
     <div class="player-controls">
-      <button class="control-btn" @click="previousTrack" :disabled="!hasPrevious">
+      <button 
+        class="control-btn" 
+        @click="previousTrack"
+        :disabled="!hasPrevious"
+      >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M6 6v12h2V8.5l5.5 5.5L15 13l-5-5-4 4z"/>
+          <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
         </svg>
       </button>
       
-      <button class="play-pause-btn" @click="togglePlayPause">
+      <button class="play-pause-btn" @click="togglePlayPause" :disabled="!currentTrack">
         <svg v-if="!isPlaying" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
           <path d="M8 5v14l11-7z"/>
         </svg>
@@ -24,9 +28,13 @@
         </svg>
       </button>
       
-      <button class="control-btn" @click="nextTrack" :disabled="!hasNext">
+      <button 
+        class="control-btn" 
+        @click="nextTrack"
+        :disabled="!hasNext"
+      >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M18 6v12h-2V8.5L10.5 14 9 13l5-5 4-4z"/>
+          <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
         </svg>
       </button>
     </div>
@@ -44,6 +52,8 @@
       @loadedmetadata="onLoadedMetadata"
       @timeupdate="onTimeUpdate"
       @ended="onTrackEnded"
+      @play="onPlay"
+      @pause="onPause"
       @error="onError"
     />
   </div>
@@ -57,6 +67,7 @@ interface Props {
   currentArtist: Artist | null
   playlist: Track[]
   currentTrackIndex: number
+  playMode?: 'playlist' | 'single'
 }
 
 const props = defineProps<Props>()
@@ -94,24 +105,68 @@ function loadTrack(track: Track) {
 }
 
 function togglePlayPause() {
-  if (!audioElement.value) return
+  if (!audioElement.value || !props.currentTrack) return
   
   if (isPlaying.value) {
     audioElement.value.pause()
   } else {
-    audioElement.value.play()
+    if (props.currentTrack.audioFile) {
+      audioElement.value.src = props.currentTrack.audioFile
+      audioElement.value.load()
+    }
+    audioElement.value.play().catch(console.error)
   }
 }
 
 function previousTrack() {
-  if (hasPrevious.value) {
-    emit('track-changed', props.currentTrackIndex - 1)
+  const newIndex = props.currentTrackIndex - 1
+  
+  if (newIndex >= 0 && props.playlist[newIndex]) {
+    emit('track-changed', newIndex)
+    
+    // Arrêter proprement l'audio actuel avant de charger le précédent
+    if (audioElement.value) {
+      audioElement.value.pause()
+      audioElement.value.currentTime = 0
+      
+      if (props.playlist[newIndex].audioFile) {
+        audioElement.value.src = props.playlist[newIndex].audioFile
+        audioElement.value.load()
+        
+        // Attendre un peu avant de lancer la lecture
+        setTimeout(() => {
+          if (audioElement.value) {
+            audioElement.value.play().catch(console.error)
+          }
+        }, 100)
+      }
+    }
   }
 }
 
 function nextTrack() {
-  if (hasNext.value) {
-    emit('track-changed', props.currentTrackIndex + 1)
+  const newIndex = props.currentTrackIndex + 1
+  
+  if (newIndex < props.playlist.length && props.playlist[newIndex]) {
+    emit('track-changed', newIndex)
+    
+    // Arrêter proprement l'audio actuel avant de charger le suivant
+    if (audioElement.value) {
+      audioElement.value.pause()
+      audioElement.value.currentTime = 0
+      
+      if (props.playlist[newIndex].audioFile) {
+        audioElement.value.src = props.playlist[newIndex].audioFile
+        audioElement.value.load()
+        
+        // Attendre un peu avant de lancer la lecture
+        setTimeout(() => {
+          if (audioElement.value) {
+            audioElement.value.play().catch(console.error)
+          }
+        }, 100)
+      }
+    }
   }
 }
 
@@ -139,19 +194,30 @@ function onTimeUpdate() {
   }
 }
 
+function onPlay() {
+  isPlaying.value = true
+  emit('play-state-changed', true)
+}
+
+function onPause() {
+  isPlaying.value = false
+  emit('play-state-changed', false)
+}
+
 function onTrackEnded() {
   isPlaying.value = false
+  emit('play-state-changed', false)
   emit('track-ended')
   
-  // Auto-play next track if available
-  if (hasNext.value) {
+  // Auto-play next track only in playlist mode
+  if (props.playMode === 'playlist' && hasNext.value) {
     nextTrack()
   }
 }
 
 function onError() {
-  console.error('Erreur lors de la lecture audio')
   isPlaying.value = false
+  emit('play-state-changed', false)
 }
 
 function formatTime(seconds: number): string {
@@ -191,7 +257,8 @@ defineExpose({
   display: flex;
   align-items: center;
   gap: 1rem;
-  z-index: 100;
+  z-index: 1000;
+  pointer-events: auto;
 }
 
 .player-info {
@@ -215,9 +282,12 @@ defineExpose({
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1001;
 }
 
-.control-btn, .play-pause-btn {
+.control-btn {
   background: transparent;
   border: none;
   color: var(--color-text);
@@ -228,26 +298,47 @@ defineExpose({
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
 }
 
-.control-btn:hover, .play-pause-btn:hover {
-  background: rgba(255,255,255,0.1);
+.control-btn:hover:not(:disabled) {
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
 }
 
 .control-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.3;
   cursor: not-allowed;
+}
+
+.control-btn svg {
+  pointer-events: none;
 }
 
 .play-pause-btn {
   background: #1db954;
+  border: none;
   color: black;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
   width: 40px;
   height: 40px;
 }
 
-.play-pause-btn:hover {
+.play-pause-btn:hover:not(:disabled) {
   background: #1ed760;
+}
+
+.play-pause-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .player-progress {
@@ -280,6 +371,7 @@ defineExpose({
   border-radius: 2px;
   transition: width 0.1s ease;
 }
+
 
 @media (max-width: 768px) {
   .audio-player {

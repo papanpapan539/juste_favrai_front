@@ -25,8 +25,11 @@
       <!-- Barre d'outils -->
       <div class="toolbar">
         <PlayButton size="large" @click="playAll" />
+        <div class="play-mode-indicator">
+          <span class="mode-text">{{ playMode === 'single' ? 'Mode individuel' : 'Mode playlist' }}</span>
+        </div>
         <div class="toolbar-actions">
-          <button class="action-btn" @click="toggleShuffle" :class="{ active: shuffle }">
+          <button class="action-btn" @click="toggleShuffle" :class="{ active: shuffle }" :disabled="playMode === 'single'">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="16,3 21,3 21,8"/>
               <line x1="4" y1="20" x2="21" y2="3"/>
@@ -34,7 +37,7 @@
               <line x1="15" y1="15" x2="21" y2="21"/>
             </svg>
           </button>
-          <button class="action-btn" @click="toggleRepeat" :class="{ active: repeat }">
+          <button class="action-btn" @click="toggleRepeat" :class="{ active: repeat }" :disabled="playMode === 'single'">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="17,1 21,5 17,9"/>
               <path d="M3,11V9a2,2 0 0,1 2,-2h14"/>
@@ -128,6 +131,7 @@
       :current-artist="currentArtist"
       :playlist="currentPlaylist"
       :current-track-index="currentTrackIndex"
+      :play-mode="playMode"
       @track-ended="onTrackEnded"
       @track-changed="onTrackChanged"
       @play-state-changed="onPlayStateChanged"
@@ -155,6 +159,7 @@ const currentArtist = ref<Artist | null>(null)
 const currentPlaylist = ref<Track[]>([])
 const currentTrackIndex = ref(0)
 const isPlaying = ref(false)
+const playMode = ref<'playlist' | 'single'>('single') // Mode de lecture
 
 // Computed properties
 const totalTracks = computed(() => {
@@ -177,7 +182,18 @@ function playAll() {
   currentPlaylist.value = allTracks
   currentTrackIndex.value = 0
   currentTrack.value = allTracks[0]
-  currentArtist.value = artists.find(artist => artist.tracks.includes(allTracks[0])) || null
+  currentArtist.value = artists.find(artist => artist.tracks.some(t => t.id === allTracks[0].id)) || null
+  playMode.value = 'playlist'
+  
+  // Démarrer la lecture automatiquement
+  nextTick(() => {
+    const audioElement = document.querySelector('audio') as HTMLAudioElement
+    if (audioElement && allTracks[0].audioFile) {
+      audioElement.src = allTracks[0].audioFile
+      audioElement.load()
+      audioElement.play().catch(console.error)
+    }
+  })
 }
 
 function playArtist(artist: Artist) {
@@ -185,16 +201,42 @@ function playArtist(artist: Artist) {
   currentTrackIndex.value = 0
   currentTrack.value = artist.tracks[0]
   currentArtist.value = artist
+  playMode.value = 'playlist'
+  
+  // Démarrer la lecture automatiquement
+  nextTick(() => {
+    const audioElement = document.querySelector('audio') as HTMLAudioElement
+    if (audioElement && artist.tracks[0].audioFile) {
+      audioElement.src = artist.tracks[0].audioFile
+      audioElement.load()
+      audioElement.play().catch(console.error)
+    }
+  })
 }
 
 function playTrack(track: Track) {
-  // Trouver l'artiste de cette chanson
-  const artist = artists.find(a => a.tracks.includes(track))
+  // Trouver l'artiste de cette chanson en comparant les IDs
+  const artist = artists.find(a => a.tracks.some(t => t.id === track.id))
+  
   if (artist) {
+    // Mode playlist - charger toutes les chansons de l'artiste
     currentPlaylist.value = artist.tracks
+    // Trouver l'index de la chanson cliquée dans la playlist de l'artiste
     currentTrackIndex.value = artist.tracks.findIndex(t => t.id === track.id)
     currentTrack.value = track
     currentArtist.value = artist
+    playMode.value = 'playlist'
+    
+    // Démarrer la lecture automatiquement
+    nextTick(() => {
+      const audioElement = document.querySelector('audio') as HTMLAudioElement
+      
+      if (audioElement && track.audioFile) {
+        audioElement.src = track.audioFile
+        audioElement.load()
+        audioElement.play().catch(console.error)
+      }
+    })
   }
 }
 
@@ -207,7 +249,7 @@ function toggleRepeat() {
 }
 
 function toggleFavorite(track: Track) {
-  console.log(`Ajout/suppression des favoris: ${track.name}`)
+  // Logique pour ajouter/supprimer des favoris
 }
 
 // Gestionnaires du lecteur audio
@@ -218,13 +260,21 @@ function onTrackEnded() {
 function onTrackChanged(index: number) {
   currentTrackIndex.value = index
   currentTrack.value = currentPlaylist.value[index]
+  
   // Trouver l'artiste de la nouvelle chanson
-  currentArtist.value = artists.find(artist => artist.tracks.includes(currentTrack.value!)) || null
+  currentArtist.value = artists.find(artist => artist.tracks.some(t => t.id === currentTrack.value!.id)) || null
 }
 
 function onPlayStateChanged(playing: boolean) {
   isPlaying.value = playing
 }
+
+// Sélectionner automatiquement le premier artiste au chargement
+onMounted(() => {
+  if (artists.length > 0) {
+    selectedArtist.value = artists[0]
+  }
+})
 </script>
 
 <style scoped>
@@ -338,6 +388,21 @@ function onPlayStateChanged(playing: boolean) {
   transform: scale(1.05);
 }
 
+.play-mode-indicator {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: rgba(255,255,255,0.1);
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+}
+
+.mode-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
 .toolbar-actions {
   display: flex;
   gap: 0.5rem;
@@ -364,6 +429,16 @@ function onPlayStateChanged(playing: boolean) {
 
 .action-btn.active {
   color: #1db954;
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-btn:disabled:hover {
+  background: transparent;
+  color: var(--color-text-muted);
 }
 
 .search-section {

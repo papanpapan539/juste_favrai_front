@@ -1,5 +1,5 @@
 <template>
-  <div class="track-item" @click="$emit('play', track)">
+  <div class="track-item" @click="handlePlay">
     <div class="track-number">{{ trackNumber }}</div>
     <div class="track-info">
       <div class="track-name">{{ track.name }}</div>
@@ -17,22 +17,21 @@
 </template>
 
 <script setup lang="ts">
-interface Track {
-  id: number
-  name: string
-  album: string
-  duration: number
-}
+import type { Track } from '~/data/music'
 
-defineProps<{
+const props = defineProps<{
   track: Track
   trackNumber: number
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   play: [track: Track]
   'toggle-favorite': [track: Track]
 }>()
+
+function handlePlay() {
+  emit('play', props.track)
+}
 
 function formatDuration(seconds: number): string {
   const minutes = Math.floor(seconds / 60)
@@ -51,10 +50,19 @@ function formatDuration(seconds: number): string {
   cursor: pointer;
   transition: background-color 0.2s ease;
   border-bottom: 1px solid var(--color-border);
+  position: relative;
+  z-index: 10;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: auto;
+  touch-action: manipulation;
 }
 
 .track-item:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.1);
+  transform: translateX(4px);
 }
 
 .track-item:last-child {

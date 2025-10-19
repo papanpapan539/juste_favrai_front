@@ -53,7 +53,8 @@ main {
   background: var(--color-primary);
   display: grid;
   place-items: center;
-  z-index: 1000;
+  z-index: 9999;
+  pointer-events: none;
 }
 .splash-logo {
   width: 90vmin; /* min(vw, vh) pour remplir l'écran de façon responsive */
@@ -63,6 +64,7 @@ main {
   object-fit: contain;
   filter: drop-shadow(0 8px 24px rgba(0,0,0,0.35));
   border-radius: 8px;
+  pointer-events: auto;
 }
 .fade-enter-active, .fade-leave-active { transition: opacity 200ms ease; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
