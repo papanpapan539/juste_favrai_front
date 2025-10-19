@@ -13,6 +13,9 @@
         <NuxtLink to="/chiottes-de-luxe" class="btn alt">
           <span>Explorer les chiottes</span>
         </NuxtLink>
+        <NuxtLink to="/proutify" class="btn alt">
+          <span>Écouter Proutify</span>
+        </NuxtLink>
       </div>
     </div>
   </section>
@@ -34,6 +37,15 @@
         <div class="body">
           <h3>Chiottes</h3>
           <p>Technologie avancée, confort inégalé.</p>
+        </div>
+      </NuxtLink>
+      <NuxtLink to="/proutify" class="cat card">
+        <div class="media" aria-hidden="true">
+          <img :src="`${base}logos/logo-principal.png`" alt="" />
+        </div>
+        <div class="body">
+          <h3>Proutify</h3>
+          <p>Plateforme de musique décalée organisée par artiste.</p>
         </div>
       </NuxtLink>
     </div>

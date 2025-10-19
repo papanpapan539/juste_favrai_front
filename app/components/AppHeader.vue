@@ -12,6 +12,7 @@
       <ul class="links" :class="{ open: isOpen }">
         <li><NuxtLink to="/parfums" @click="isOpen = false">Parfums</NuxtLink></li>
         <li><NuxtLink to="/chiottes-de-luxe" @click="isOpen = false">Chiottes</NuxtLink></li>
+        <li><NuxtLink to="/proutify" @click="isOpen = false">Proutify</NuxtLink></li>
       </ul>
     </nav>
   </header>
