@@ -24,10 +24,10 @@ export const artists: Artist[] = [
     description: "Artiste indépendant aux compositions originales",
     followers: 3200,
     tracks: [
-      { id: 1, name: "fanfare 1", album: "Collection 2024", duration: 180, year: 2024, audioFile: "/chanson/louiscroixvbaton16/fanfare 1.mp3" },
-      { id: 2, name: "fanfare 2", album: "Collection 2024", duration: 195, year: 2024, audioFile: "/chanson/louiscroixvbaton16/fanfare 2.mp3" },
-      { id: 3, name: "faut trouver un nom 1", album: "Collection 2024", duration: 220, year: 2024, audioFile: "/chanson/louiscroixvbaton16/faut trouver un nom 1.mp3" },
-      { id: 4, name: "faut trouver un nom 2", album: "Collection 2024", duration: 210, year: 2024, audioFile: "/chanson/louiscroixvbaton16/faut trouver un nom 2.mp3" }
+      { id: 1, name: "fanfare 1", album: "Collection 2024", duration: 29, year: 2024, audioFile: "/chanson/louiscroixvbaton16/fanfare 1.mp3" },
+      { id: 2, name: "fanfare 2", album: "Collection 2024", duration: 34, year: 2024, audioFile: "/chanson/louiscroixvbaton16/fanfare 2.mp3" },
+      { id: 3, name: "faut trouver un nom 1", album: "Collection 2024", duration: 31, year: 2024, audioFile: "/chanson/louiscroixvbaton16/faut trouver un nom 1.mp3" },
+      { id: 4, name: "faut trouver un nom 2", album: "Collection 2024", duration: 14, year: 2024, audioFile: "/chanson/louiscroixvbaton16/faut trouver un nom 2.mp3" }
     ]
   }
 ]
