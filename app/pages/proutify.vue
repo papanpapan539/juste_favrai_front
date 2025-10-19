@@ -6,11 +6,7 @@
       <div class="header-content">
         <div class="header-info">
           <div class="playlist-icon">
-            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="currentColor"/>
-              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <img :src="`${base}logos/proutify.jpg`" alt="Logo Proutify" class="proutify-logo" />
           </div>
           <div class="playlist-details">
             <p class="playlist-type">PLATEFORME DE MUSIQUE</p>
@@ -144,6 +140,9 @@ import { artists, searchTracks, type Artist, type Track } from '~/data/music'
 
 useHead({ title: 'Proutify - Plateforme de musique' })
 
+const config = useRuntimeConfig()
+const base = config.app.baseURL
+
 // État de l'application
 const shuffle = ref(false)
 const repeat = ref(false)
@@ -275,6 +274,14 @@ function onPlayStateChanged(playing: boolean) {
   justify-content: center;
   color: #1db954;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+.proutify-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .playlist-type {
